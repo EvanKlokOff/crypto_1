@@ -1,0 +1,754 @@
+<h1 id="шифр-простой-замены">Шифр простой замены</h1>
+<p>Шифр простой замены это <span class="math inline">(<em>Σ</em><sup>*</sup>, <em>Σ</em><sup>*</sup>, <em>S</em><sub><em>Σ</em></sub>, <em>E</em>, <em>D</em>)</span> Где * <span class="math inline"><em>S</em><sub><em>Σ</em></sub></span>-это группа перестановок на <span class="math inline"><em>Σ</em></span></p>
+<p><strong>Открытый текст</strong> m = <span class="math inline"><em>m</em><sub>1</sub><em>m</em><sub>2</sub>...<em>m</em><sub><em>n</em></sub></span><br />
+<strong>Криптограмма</strong> c = <span class="math inline"><em>с</em><sub>1</sub><em>с</em><sub>2</sub>...<em>c</em><sub><em>n</em></sub></span></p>
+<p><span class="math inline"><em>k</em> ∈ <em>S</em><sub><em>Σ</em></sub></span> такое что <span class="math inline"><em>k</em> : <em>Σ</em> → <em>Σ</em></span> (эта стрелка обозначает биекцию, в латехе нет таких стрелок блять)</p>
+<p><span class="math inline">∀<em>i</em> ∈ {1, ...<em>n</em>} : <em>c</em><sub><em>i</em></sub> = <em>k</em>(<em>m</em><sub><em>i</em></sub>)</span></p>
+<p><span class="math inline">∀<em>i</em> ∈ {1, ...<em>n</em>} : <em>m</em><sub><em>i</em></sub> = <em>k</em><sup> − 1</sup>(<em>c</em><sub><em>i</em></sub>)</span></p>
+<h1 id="исторические-шифры-простой-замены">Исторические шифры простой замены</h1>
+<h2 id="диск-альберти">Диск Альберти</h2>
+<p><img src="image.png" alt="alt text" /> <img src="image-1.png" alt="alt text" /></p>
+<h2 id="шифр-цезаря">Шифр Цезаря</h2>
+<p>Если сопоставить каждому символу алфавита его порядковый номер (нумеруя с 0), то шифрование и дешифрование можно выразить формулами модульной арифметики[1][2]:</p>
+<p><span class="math inline"><em>y</em> = (<em>x</em> + <em>k</em>)<em>m</em><em>o</em><em>d</em>(<em>n</em>)</span></p>
+<p><span class="math inline"><em>x</em> = (<em>y</em> − <em>k</em>)<em>m</em><em>o</em><em>d</em>(<em>n</em>)</span></p>
+<p>где * x — символ открытого текста, * y — символ шифрованного текста, * n — мощность алфавита, а * k — ключ.(Ключ это число, на которое сдвигаем букву)</p>
+<h2 id="шифр-виженера">Шифр Виженера</h2>
+<p>Шифр виженера это <span class="math inline">(<em>Σ</em><sup>*</sup>, <em>Σ</em><sup>*</sup>, <em>Σ</em><sup>*</sup>, <em>E</em>, <em>D</em>)</span></p>
+<p><strong>Открытый текст</strong> m = <span class="math inline"><em>m</em><sub>1</sub><em>m</em><sub>2</sub>...<em>m</em><sub><em>n</em></sub></span><br />
+<strong>Криптограмма</strong> c = <span class="math inline"><em>с</em><sub>1</sub><em>с</em><sub>2</sub>...<em>c</em><sub><em>n</em></sub></span> <strong>Ключ(какое-то слово)</strong> k = <span class="math inline"><em>k</em><sub>1</sub>, ...<em>k</em><sub><em>p</em></sub></span>, где <span class="math inline"><em>p</em> ≪ <em>n</em></span> (т.е длина ключа намного меньше длины открытого текста)</p>
+<p><span class="math inline"><em>c</em><sub><em>i</em></sub> = (<em>m</em><sub><em>i</em></sub> + <em>k</em><sub>[(<em>i</em> − 1)%<em>p</em>] + 1</sub>)<em>m</em><em>o</em><em>d</em>(|<em>Σ</em>|)</span></p>
+<p><span class="math inline"><em>m</em><sub><em>i</em></sub> = (<em>c</em><sub><em>i</em></sub> − <em>k</em><sub>[(<em>i</em> − 1)%<em>p</em>] + 1</sub>)<em>m</em><em>o</em><em>d</em>(|<em>Σ</em>|)</span></p>
+<h1 id="про-криптоанализ">Про криптоанализ</h1>
+<p>Находимся в условиях, когда криптоаналитик знает какую криптосистему мы используем, но он не знаетключ</p>
+<h3 id="опр">ОПР</h3>
+<p><strong>Атака</strong> - Совокупность условий, в которых находится крипто аналитик называется атакой</p>
+<h3 id="виды-атак-и-методы-атак">Виды атак и методы атак</h3>
+<h4 id="виды-атак">Виды атак:</h4>
+<ol type="1">
+<li><p><strong>С известным шифротекстом</strong>. Мы имеем доступ к зашифрованному сообщению и взлом осуществляется с помощью его исследования</p></li>
+<li><p><strong>С известным открытым текстом</strong>. Известны пары открытого текста и шифр текста</p></li>
+<li><p><strong>С наиболее вероятным словом</strong>, т.е знаем, что в криптограмме обязательно содержится определенное слово</p></li>
+<li><p><strong>С избранным открытым текстом</strong>, т.е Атакующий может расшифровывать выбранные шифртексты (кроме целевого). Либо атакующий может шифровать фрагменты открытого текста</p></li>
+</ol>
+<h4 id="методы-атак">Методы атак:</h4>
+<ol type="1">
+<li><p><strong>Brute-force attack</strong> (Полный перебор) Суть: Перебор всех возможных ключей. Эффективность: Зависит от длины ключа (например, 128-битный AES требует ~2¹²⁸ попыток). Защита: Использование длинных ключей (256 бит и более).</p></li>
+<li><p><strong>Частичная индукция</strong>, т.е восстановление части открытого текста по криптограме</p></li>
+<li><p><strong>Информационная индукция</strong>, Получение некоторой инфы об открытом тексте по криптограме</p></li>
+</ol>
+<h1 id="криптоанализ-шифра-простой-замены">Криптоанализ шифра простой замены</h1>
+<h3 id="атака-3не-устойчив-к-этой-атаке">Атака №3(не устойчив к этой атаке)</h3>
+<p>Атакующий может зашифровать весь алфавит. После зашифровки мы получаем сразу весь ключ</p>
+<h3 id="атака-2-взлом-стал-труднее-но-ещё-возможен">Атака №2 (Взлом стал труднее, но ещё возможен)</h3>
+<p>По паре <span class="math inline">(<em>m</em><sub><em>i</em></sub>, <em>c</em><sub><em>i</em></sub>)</span> находим часть ключевой перестановки, (смотрим как переходят буквы из открытго текста в криптограмму, таким образом получаем часть ключа).</p>
+<p>Затем частично расшифровываем целевую криптограмму, а затем пытаемся дополнять рассшифрованный текст по осмысленности(по другим свойствам языка)</p>
+<h3 id="атака-2взлом-стал-труднее-но-ещё-возможен">Атака №2’(Взлом стал труднее, но ещё возможен)</h3>
+<p>Метод протяжки слов, т.е подставляем в возможные места известные слова, получая фрагмент ключа. Если мы правильно подставили вероятные слова, то дальше подбираем ключ по осмысленности.</p>
+<p>Пример от Ананичева: Если есть Террористы, которые переписываются с шифром простой замены, то скорее всего они говорят слова “Бомба” или “Алах ак бар”. Эти слова можно протягивать сквозь текст, получая ключ</p>
+<h3 id="атака-1">Атака №1</h3>
+<ul>
+<li><p><strong>Частотный криптоанализ (подходит для длинных текстов &gt; 3000 символов)</strong>.</p>
+<ol type="1">
+<li><p>В зашифрованном тексте подсчитывают, какие символы встречаются чаще.</p></li>
+<li><p>Сравнивают с частотностью букв в языке (например, в русском чаще всего “О”, “Е”, “А”).</p></li>
+<li><p>Подбирают замену, пока текст не станет осмысленным.</p></li>
+</ol></li>
+</ul>
+<p>Для некоторых текстов, частоты могут меняться, например перед тем как зашифровать текст, можно удалить из него все знаки препинания, пробелы.</p>
+<p>Также если текст - тематический, то наиболее вероятные слова могут сместить частоты.</p>
+<p><strong>Нотесравил - гласные и согласные идут по убыванию частот. Гласные стоят раньше согласных</strong></p>
+<strong>Частоты букв в русском языке</strong>
+<table class="standard sortable jquery-tablesorter">
+<thead>
+<tr>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Упорядочить по возрастанию">
+буква
+</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Упорядочить по возрастанию">
+ранг
+</th>
+<th class="headerSort" tabindex="0" role="columnheader button" title="Упорядочить по возрастанию">
+употреблений
+</th>
+<th colspan="2" class="headerSort" tabindex="0" role="columnheader button" title="Упорядочить по возрастанию">
+частотность
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">
+а
+</td>
+<td align="right">
+3
+</td>
+<td align="right">
+40487008
+</td>
+<td align="right">
+8,01%
+</td>
+<td align="left">
+<span style="display:none;">8.01</span>
+<div style="width:320.4px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+б
+</td>
+<td align="right">
+21
+</td>
+<td align="right">
+8051767
+</td>
+<td align="right">
+1,59%
+</td>
+<td align="left">
+<span style="display:none;">1.59</span>
+<div style="width:63.6px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+в
+</td>
+<td align="right">
+9
+</td>
+<td align="right">
+22930719
+</td>
+<td align="right">
+4,54%
+</td>
+<td align="left">
+<span style="display:none;">4.54</span>
+<div style="width:181.6px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+г
+</td>
+<td align="right">
+19
+</td>
+<td align="right">
+8564640
+</td>
+<td align="right">
+1,70%
+</td>
+<td align="left">
+<span style="display:none;">1.7</span>
+<div style="width:68px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+д
+</td>
+<td align="right">
+13
+</td>
+<td align="right">
+15052118
+</td>
+<td align="right">
+2,98%
+</td>
+<td align="left">
+<span style="display:none;">2.98</span>
+<div style="width:119.2px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+е
+</td>
+<td align="right">
+2
+</td>
+<td align="right">
+42691213
+</td>
+<td align="right">
+8,45%
+</td>
+<td align="left">
+<span style="display:none;">8.45</span>
+<div style="width:338px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ё
+</td>
+<td align="right">
+33
+</td>
+<td align="right">
+184928
+</td>
+<td align="right">
+0,04%
+</td>
+<td align="left">
+<span style="display:none;">0.04</span>
+<div style="width:1.6px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ж
+</td>
+<td align="right">
+25
+</td>
+<td align="right">
+4746916
+</td>
+<td align="right">
+0,94%
+</td>
+<td align="left">
+<span style="display:none;">0.94</span>
+<div style="width:37.6px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+з
+</td>
+<td align="right">
+20
+</td>
+<td align="right">
+8329904
+</td>
+<td align="right">
+1,65%
+</td>
+<td align="left">
+<span style="display:none;">1.65</span>
+<div style="width:66px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+и
+</td>
+<td align="right">
+4
+</td>
+<td align="right">
+37153142
+</td>
+<td align="right">
+7,35%
+</td>
+<td align="left">
+<span style="display:none;">7.35</span>
+<div style="width:294px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+й
+</td>
+<td align="right">
+23
+</td>
+<td align="right">
+6106262
+</td>
+<td align="right">
+1,21%
+</td>
+<td align="left">
+<span style="display:none;">1.21</span>
+<div style="width:48.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+к
+</td>
+<td align="right">
+11
+</td>
+<td align="right">
+17653469
+</td>
+<td align="right">
+3,49%
+</td>
+<td align="left">
+<span style="display:none;">3.49</span>
+<div style="width:139.6px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+л
+</td>
+<td align="right">
+10
+</td>
+<td align="right">
+22230174
+</td>
+<td align="right">
+4,40%
+</td>
+<td align="left">
+<span style="display:none;">4.4</span>
+<div style="width:176px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+м
+</td>
+<td align="right">
+12
+</td>
+<td align="right">
+16203060
+</td>
+<td align="right">
+3,21%
+</td>
+<td align="left">
+<span style="display:none;">3.21</span>
+<div style="width:128.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+н
+</td>
+<td align="right">
+5
+</td>
+<td align="right">
+33838881
+</td>
+<td align="right">
+6,70%
+</td>
+<td align="left">
+<span style="display:none;">6.7</span>
+<div style="width:268px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+о
+</td>
+<td align="right">
+1
+</td>
+<td align="right">
+55414481
+</td>
+<td align="right">
+10,97%
+</td>
+<td align="left">
+<span style="display:none;">10.97</span>
+<div style="width:438.8px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+п
+</td>
+<td align="right">
+14
+</td>
+<td align="right">
+14201572
+</td>
+<td align="right">
+2,81%
+</td>
+<td align="left">
+<span style="display:none;">2.81</span>
+<div style="width:112.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+р
+</td>
+<td align="right">
+8
+</td>
+<td align="right">
+23916825
+</td>
+<td align="right">
+4,73%
+</td>
+<td align="left">
+<span style="display:none;">4.73</span>
+<div style="width:189.2px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+с
+</td>
+<td align="right">
+7
+</td>
+<td align="right">
+27627040
+</td>
+<td align="right">
+5,47%
+</td>
+<td align="left">
+<span style="display:none;">5.47</span>
+<div style="width:218.8px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+т
+</td>
+<td align="right">
+6
+</td>
+<td align="right">
+31620970
+</td>
+<td align="right">
+6,26%
+</td>
+<td align="left">
+<span style="display:none;">6.26</span>
+<div style="width:250.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+у
+</td>
+<td align="right">
+15
+</td>
+<td align="right">
+13245712
+</td>
+<td align="right">
+2,62%
+</td>
+<td align="left">
+<span style="display:none;">2.62</span>
+<div style="width:104.8px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ф
+</td>
+<td align="right">
+31
+</td>
+<td align="right">
+1335747
+</td>
+<td align="right">
+0,26%
+</td>
+<td align="left">
+<span style="display:none;">0.26</span>
+<div style="width:10.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+х
+</td>
+<td align="right">
+24
+</td>
+<td align="right">
+4904176
+</td>
+<td align="right">
+0,97%
+</td>
+<td align="left">
+<span style="display:none;">0.97</span>
+<div style="width:38.8px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ц
+</td>
+<td align="right">
+28
+</td>
+<td align="right">
+2438807
+</td>
+<td align="right">
+0,48%
+</td>
+<td align="left">
+<span style="display:none;">0.48</span>
+<div style="width:19.2px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ч
+</td>
+<td align="right">
+22
+</td>
+<td align="right">
+7300193
+</td>
+<td align="right">
+1,44%
+</td>
+<td align="left">
+<span style="display:none;">1.44</span>
+<div style="width:57.6px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ш
+</td>
+<td align="right">
+26
+</td>
+<td align="right">
+3678738
+</td>
+<td align="right">
+0,73%
+</td>
+<td align="left">
+<span style="display:none;">0.73</span>
+<div style="width:29.2px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+щ
+</td>
+<td align="right">
+29
+</td>
+<td align="right">
+1822476
+</td>
+<td align="right">
+0,36%
+</td>
+<td align="left">
+<span style="display:none;">0.36</span>
+<div style="width:14.4px;height:1.5em;background:#aaa;background:blue">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ъ
+</td>
+<td align="right">
+32
+</td>
+<td align="right">
+185452
+</td>
+<td align="right">
+0,04%
+</td>
+<td align="left">
+<span style="display:none;">0.04</span>
+<div style="width:1.6px;height:1.5em;background:#aaa;background:yellow">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ы
+</td>
+<td align="right">
+17
+</td>
+<td align="right">
+9595941
+</td>
+<td align="right">
+1,90%
+</td>
+<td align="left">
+<span style="display:none;">1.9</span>
+<div style="width:76px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ь
+</td>
+<td align="right">
+18
+</td>
+<td align="right">
+8784613
+</td>
+<td align="right">
+1,74%
+</td>
+<td align="left">
+<span style="display:none;">1.74</span>
+<div style="width:69.6px;height:1.5em;background:#aaa;background:yellow">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+э
+</td>
+<td align="right">
+30
+</td>
+<td align="right">
+1610107
+</td>
+<td align="right">
+0,32%
+</td>
+<td align="left">
+<span style="display:none;">0.32</span>
+<div style="width:12.8px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+ю
+</td>
+<td align="right">
+27
+</td>
+<td align="right">
+3220715
+</td>
+<td align="right">
+0,64%
+</td>
+<td align="left">
+<span style="display:none;">0.64</span>
+<div style="width:25.6px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+<tr>
+<td align="center">
+я
+</td>
+<td align="right">
+16
+</td>
+<td align="right">
+10139085
+</td>
+<td align="right">
+2,01%
+</td>
+<td align="left">
+<span style="display:none;">2.01</span>
+<div style="width:80.4px;height:1.5em;background:#aaa;background:red">
+ 
+</div>
+</td>
+</tr>
+</tbody>
+<tfoot>
+</tfoot>
+</table>
+<p><strong>Если текст короткий, то:</strong> * Делаем много разных гиппотез о возможных соотвествиях букв открытого текста буквам из криптограммы</p>
+<ul>
+<li><p>Чтобы сократить кол-во гиппотез, можно использовать частоты биграм, триграм и т.д сравнив их с их реальными частотами</p></li>
+<li><p>Также можно использовать информацию о паросочетаниях букв</p>
+<ul>
+<li>ГГ - встречается с частотой 0.065</li>
+<li>ГС - встречается с частотой 0.383</li>
+<li>СГ - встречается с частотой 0.383</li>
+<li>СС - встречается с частотой 0.168</li>
+</ul></li>
+</ul>
