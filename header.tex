@@ -1,4 +1,16 @@
+\usepackage[paper=a4paper,margin=1cm]{geometry}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\usepackage{fontspec}
+\usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{unicode-math}
-\setmainfont{CMU Serif}
-\setmathfont{CMU Serif}
+\usepackage{microtype}       % Для лучшей типографики
+\usepackage{setspace}        % Для компактного межстрочного интервала
+\singlespacing               % Минимальный интервал между строками
+\setlength{\parindent}{0pt}  % Без отступов в начале абзаца
+\setlength{\parskip}{3pt}    % Минимальный отступ между абзацами
+\newcommand{\exist}{\exists}  % Исправление для \exist
+% \newcommand{\\blacksquare}{\\quad\\square}  % Альтернативный символ конца доказательства

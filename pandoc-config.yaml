@@ -1,0 +1,22 @@
+# pandoc-config.yaml
+from: markdown+tex_math_dollars+raw_tex
+to: pdf
+pdf-engine: xelatex
+output-file: output.pdf
+resource-path: ["."]  # Поиск изображений в текущей и родительской директориях
+
+# Настройки шрифтов и языка
+variables:
+  mainfont: "CMU Serif"                   # Компактный шрифт с поддержкой кириллицы
+  sansfont: "CMU Sans Serif"
+  monofont: "CMU Typewriter Text"
+  mathfont: "Latin Modern Math"           # Оптимальный для математики
+  lang: ru
+  documentclass: article
+  papersize: a4
+
+include-in-header: ../header.tex
+
+metadata:
+  graphics: true
+  standalone: true
